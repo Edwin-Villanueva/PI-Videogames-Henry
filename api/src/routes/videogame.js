@@ -1,12 +1,25 @@
 const { Router } = require('express');
 const router = Router();
+const { Videogame } = require("../db")
+
 
 router.get("/",(req,res,next)=>{
-    res.send("soy el get de videogame");
+    return Videogame.findAll()
+    .then((games)=>{
+        res.send(games);
+
+    })
 })
 
-router.post("/",(req,res,next)=>{
-    res.send("soy el post de videogame");
+router.post("/",async(req,res,next)=>{
+    const {name,description,rating,platforms} = req.body;
+    const newGame= await Videogame.create({
+        name,
+        description,
+        rating,
+        platforms
+    })
+    res.send(newGame)
 })
 
 router.put("/",(req,res,next)=>{

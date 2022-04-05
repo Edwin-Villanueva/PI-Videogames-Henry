@@ -14,7 +14,6 @@ module.exports = (sequelize) => {
     name: {
       type: DataTypes.STRING,
       allowNull:false,
-      allowNull: false,
     },
     description:{
       type:DataTypes.TEXT,// ver si se debe cambiar el tipo de dato
@@ -23,7 +22,7 @@ module.exports = (sequelize) => {
     },
     releaseDate:{
       type:DataTypes.DATEONLY,
-      defaultValue: DataTypes.NOW
+      defaultValue: DataTypes.NOW//ver si lo dejamos por defecto o si le pasamos un date por body
     },
     rating:{
       type:DataTypes.INTEGER,// ver si se debe cambiar el tipo de dato

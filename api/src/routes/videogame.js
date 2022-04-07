@@ -3,23 +3,31 @@ const router = Router();
 const { Videogame } = require("../db")
 
 
-router.get("/",(req,res,next)=>{
-    return Videogame.findAll()
-    .then((games)=>{
-        res.send(games);
+router.get("/:idVideogame",async(req,res,next)=>{
+    try {
+        const { idVideogame } =req.params;
+        const vgame = await Videogame.findByPk(idVideogame);
+        res.send(vgame);
+    } catch (error) {
+        next(error);
+    }
 
-    })
 })
 
 router.post("/",async(req,res,next)=>{
-    const {name,description,rating,platforms} = req.body;
-    const newGame= await Videogame.create({
-        name,
-        description,
-        rating,
-        platforms
-    })
-    res.send(newGame)
+    
+    try {
+        const { name,description,rating,platforms } = req.body;
+        const newGame= await Videogame.create({
+            name,
+            description,
+            rating,
+            platforms
+        })
+        res.status(201).send(newGame);
+    } catch (error) {
+        next(error);    
+    }
 })
 
 router.put("/",(req,res,next)=>{

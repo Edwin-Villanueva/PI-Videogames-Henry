@@ -16,7 +16,7 @@ router.get("/",async(req,res,next)=>{
             videogamesDB = await Videogame.findAll({
                 where:{
                     name:{
-                        [Op.iLike]: "%" + name + "%" //expresion regular que filtra coincidencias con name de seuqalize
+                        [Op.like]: '%' + name + '%' //expresion regular que filtra coincidencias con name de seuqalize
                     }
                 },
                 order:[
@@ -44,6 +44,10 @@ router.get("/",async(req,res,next)=>{
                         name:game.name
                     }
                 } );
+                vAPI_filt=vAPI_filt.filter((game)=>{//segundo filtrado de nombre a buscar
+                    return game.name.toLowerCase().includes(name);
+
+                })
                 let allGames=[...vDB_filt,...vAPI_filt.slice(0,14)];//filtro 14 dela api asi veo si se muestra de mi bd
                 let gamesOrd=allGames.sort(function (a, b) { //ordeno de menor a mayor para testear
                     if (a.name.toLowerCase() > b.name.toLowerCase()) {//luego tengo que filtrar desde el front

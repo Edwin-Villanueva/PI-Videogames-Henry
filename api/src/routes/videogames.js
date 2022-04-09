@@ -16,7 +16,7 @@ router.get("/",async(req,res,next)=>{
             videogamesDB = await Videogame.findAll({
                 where:{
                     name:{
-                        [Op.like]: '%' + name + '%' //expresion regular que filtra coincidencias con name de seuqalize
+                        [Op.iLike]: '%' + name + '%' //expresion regular que filtra coincidencias con name de seuqalize
                     }
                 },
                 order:[
@@ -25,7 +25,7 @@ router.get("/",async(req,res,next)=>{
             });
         }
         else{
-            videogamesAPI=await axios.get(`https://api.rawg.io/api/games?key=${API_KEY}&page=8&page_size=2`);
+            videogamesAPI=await axios.get(`https://api.rawg.io/api/games?key=${API_KEY}&page_size=100`);
             videogamesDB = await Videogame.findAll();
         }
         Promise.all([videogamesAPI,videogamesDB])
@@ -44,10 +44,14 @@ router.get("/",async(req,res,next)=>{
                         name:game.name
                     }
                 } );
-                vAPI_filt=vAPI_filt.filter((game)=>{//segundo filtrado de nombre a buscar
-                    return game.name.toLowerCase().includes(name);
+                
+                if( name ){//segundo filtrado de nombre a buscar en caso que se haya proporcionado
+                    vAPI_filt=vAPI_filt.filter((game)=>{
+                        return game.name.toLowerCase().includes(name);
+    
+                    })
+                }
 
-                })
                 let allGames=[...vDB_filt,...vAPI_filt.slice(0,14)];//filtro 14 dela api asi veo si se muestra de mi bd
                 let gamesOrd=allGames.sort(function (a, b) { //ordeno de menor a mayor para testear
                     if (a.name.toLowerCase() > b.name.toLowerCase()) {//luego tengo que filtrar desde el front

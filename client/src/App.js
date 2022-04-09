@@ -1,9 +1,9 @@
 import './App.css';
-
+import GameCards from './modules/gameCards';
 function App() {
   return (
     <div className="App">
-      <h1>Henry Videogames</h1>
+      <GameCards />
     </div>
   );
 }

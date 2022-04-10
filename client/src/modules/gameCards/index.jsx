@@ -1,5 +1,6 @@
 import { useState,useEffect } from "react";
 import axios from "axios";
+import GameCard from "./gameCard";
 export default function GameCards(){
     const [VideoGames , setVideogames] = useState([]);
     const getVideogames=()=>{
@@ -16,13 +17,11 @@ export default function GameCards(){
     }, [])
     return <div style={{display:"flex",alignContent:"space-around"}}> {
         VideoGames.map((Vgame)=>{
-            return <div key={Vgame.id} style={{border:"1px solid green",width : 80,margin: "2px"}}>
-                <p>{Vgame.id}</p>
-                <p>{Vgame.name}</p>
-            </div> 
+            return <GameCard key={Vgame.id} id={Vgame.id} name={Vgame.name}/>
+            
         })
     }
-</div>
+    </div>
 
     // return  <div style={{border:"1px solid green",width : 100,margin: "2px"}}>
     //     aca se debe renderizar un game card

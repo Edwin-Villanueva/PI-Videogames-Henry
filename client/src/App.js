@@ -1,5 +1,5 @@
 import './App.css';
-import GameCards from './modules/gameCards';
+import GameCards from './components/gameCards';
 function App() {
   return (
     <div className="App">
